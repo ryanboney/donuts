@@ -1,8 +1,11 @@
+const counter = document.getElementById("counter")
+const donut = document.getElementById("donut")
 let donuts = 0
 
-function add(){
+function addDonut(){
 donuts++;
-document.getElementById("counter").innerHTML = "Donuts " + donuts
+counter.innerHTML = `Donuts: ${donuts}`
 }
 
-document.getElementById("donut").addEventListener("click", add()); 
+donut.addEventListener('click', addDonut); 
+
