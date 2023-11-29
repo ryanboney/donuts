@@ -8,6 +8,7 @@ let donuts = 0;
 let multi = 1;
 let multiplierEnabled = false;
 let autoclickEnabled = false;
+let autoclickEngaged = false;
 
 multiplier.style.display="none";
 autoclicker.style.display="none";
@@ -18,7 +19,7 @@ function addDonut(){
 
     if ((autoclickEnabled === false)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts}`;
     else if ((autoclickEnabled === true)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
-    else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts} <br> Multiplier: ${multi}`;
+    else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts} <br> Multiplier: ${multi}X`;
     else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
 
     if ((donuts > 9)&&(multiplierEnabled===false)){
@@ -72,7 +73,9 @@ function addClicker() {
         clickers++;
         if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
         else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
-        autoClick();
+        
+        if (autoclickEngaged === false) autoClick();
+        autoclickEngaged = true;
     }
 }
 
