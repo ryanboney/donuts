@@ -40,26 +40,24 @@ function dropDonut(){
     dropDonut.style.left = Math.random() * window.innerWidth + 'px'; // Sets a random horizontal position
     dropDonut.style.top = '0px'; // Sets the initial vertical position to the top of the page
     document.body.appendChild(dropDonut); //Adds new donut
-    dropDonut.style.zIndex = '-1';
-    dropDonut.style.animation = 'jiggle' // Sets the z-index to -1 to make the image appear behind all other elements
-    let speed = 4; // Speed of the image
-    let position = -200; // Starting position of the image
+    dropDonut.style.zIndex = '-1'; // Sends to back!
+    
+    let speed = 3; // Speed of the image
+    let position = -200; // Starting position of the image (offscreen)
 
-    const animate = setInterval(() => {
+    const animate = setInterval(() => { //
 
         position += speed;
-        dropDonut.style.top = position + 'px';
+        dropDonut.style.top = position + 'px'; // Sets location per update
 
         if (position > window.innerHeight - dropDonut.offsetHeight) {
             clearInterval(animate);
             document.body.removeChild(dropDonut);
-        }
+        } // ^ Removes once at bottom
 
     }, 1);
     
 }
-
-
 
 donut.addEventListener('click', addDonut);
 donut.addEventListener('click', dropDonut);
