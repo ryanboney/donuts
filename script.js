@@ -9,7 +9,7 @@ const autoclicker = document.getElementById("autoclicker");
 let donuts = 0;
 let totalDonuts = 0
 let clickers = 0;
-let clickerCost = 20;
+let clickerCost = 100;
 let multi = 1;
 let multiplierCost = 10;
 let multiplierEnabled = false;
@@ -34,7 +34,7 @@ function addDonut(){
         multiplier.style.display="";
     }
 
-    if ((donuts > 19)&&(autoclickEnabled===false)){
+    if ((donuts > 99)&&(autoclickEnabled===false)){
         autoclicker.innerHTML = `<img src="./images/clicker.png">UNLOCK AUTOCLICKER<br>(${clickerCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/clicker.png" alt=""></div>`;
         autoclickEnabled = true;
         autoclicker.style.display="";
@@ -59,7 +59,7 @@ function dropDonut(){
     dropDonut.style.zIndex = '-1'; // Sends to back!
     
     let speed = 3; // Speed of the image
-    let position = -200; // Bumps position of the image offscreen
+    let position = -150; // Bumps position of the image offscreen
 
     const animate = setInterval(() => { // Updates location every 1ms
 
