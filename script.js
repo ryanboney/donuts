@@ -4,6 +4,7 @@ const donut = document.getElementById("donut");
 const donutTotal = document.getElementById("totalDonuts")
 const multiplier = document.getElementById("multiplier");
 const autoclicker = document.getElementById("autoclicker");
+const resetValues = document.getElementById("reset")
 
 const click = new Audio('./sounds/click.wav');
 const autoBuy = new Audio('./sounds/autoclick.wav');
@@ -26,10 +27,7 @@ function addDonut(){
 
     donuts += 1*multi;    
     totalDonuts += 1*multi
-    if ((autoclickEnabled === false)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)}`;
-    else if ((autoclickEnabled === true)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers}`;
-    else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> Multiplier: ${multi.toFixed(1)}X`;
-    else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
+    counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
 
     if ((donuts > 9)&&(multiplierEnabled===false)){
         multiplier.innerHTML = `<img src="./images/coin.png">UNLOCK MULTIPLIER<br>(${multiplierCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/coin.png" alt=""></div>`;
@@ -129,6 +127,29 @@ function multiply(){
     }
 }
 
+function resetGame() {
+    donuts = 0
+    totalDonuts = 0
+    clickers = 0
+    clickerCost = 100
+    multi = 1
+    multiplierCost = 10
+    multiplierEnabled = false
+    autoclickEnabled = false
+    autoclickEngaged = false
+    
+    if (autoclickEnabled === false && multiplierEnabled === false) {
+    counter.innerHTML = `Click that DONUT!`
+    autoclicker.innerHTML = ""
+    multiplier.innerHTML = ""
+
+    autoclicker.style.display = "none"
+    multiplier.style.display = "none"
+    } 
+
+    totalCounter.innerHTML = `Total Donuts: ${totalDonuts.toFixed(0)}`
+}
+
 autoclicker.addEventListener("click", addClicker);
 
 donut.addEventListener('click', addDonut);
@@ -136,6 +157,8 @@ donut.addEventListener('click', dropDonut);
 donut.addEventListener('click', function() {click.play();});
 
 multiplier.addEventListener('click', addMultiplier)
+
+resetValues.addEventListener('click', resetGame)
 
 
 
