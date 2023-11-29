@@ -9,7 +9,6 @@ const click = new Audio('./sounds/click.wav');
 const autoBuy = new Audio('./sounds/autoclick.wav');
 const multiBuy = new Audio('./sounds/multiplier.wav');
 
-
 let donuts = 0;
 let totalDonuts = 0
 let clickers = 0;
@@ -81,6 +80,7 @@ function dropDonut(){
 
 function addClicker() {
     if (donuts >= clickerCost) {
+        autoBuy.play();
         donuts -= clickerCost;
         clickerCost *=1.1
         clickers++;
@@ -107,7 +107,9 @@ function autoClick() {
 }
 
 function addMultiplier(){
+    
     if(donuts >= multiplierCost){
+        multiBuy.play();
         donuts -= multiplierCost
         multiplierCost *= 1.1
         multi *= 1.2
@@ -128,14 +130,12 @@ function multiply(){
 }
 
 autoclicker.addEventListener("click", addClicker);
-autoclicker.addEventListener('click', function() {autoBuy.play();});
 
 donut.addEventListener('click', addDonut);
 donut.addEventListener('click', dropDonut);
 donut.addEventListener('click', function() {click.play();});
 
 multiplier.addEventListener('click', addMultiplier)
-multiplier.addEventListener('click', function() {multiBuy.play();});
 
 
 
