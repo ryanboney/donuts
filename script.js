@@ -2,9 +2,13 @@ const counter = document.getElementById("counter");
 const totalCounter = document.getElementById("totalCounter");
 const donut = document.getElementById("donut");
 const donutTotal = document.getElementById("totalDonuts")
-
 const multiplier = document.getElementById("multiplier");
 const autoclicker = document.getElementById("autoclicker");
+
+const click = new Audio('./sounds/click.wav');
+const autoBuy = new Audio('./sounds/autoclick.wav');
+const multiBuy = new Audio('./sounds/multiplier.wav');
+
 
 let donuts = 0;
 let totalDonuts = 0
@@ -124,10 +128,14 @@ function multiply(){
 }
 
 autoclicker.addEventListener("click", addClicker);
+autoclicker.addEventListener('click', function() {autoBuy.play();});
+
 donut.addEventListener('click', addDonut);
 donut.addEventListener('click', dropDonut);
-multiplier.addEventListener('click', addMultiplier)
+donut.addEventListener('click', function() {click.play();});
 
+multiplier.addEventListener('click', addMultiplier)
+multiplier.addEventListener('click', function() {multiBuy.play();});
 
 
 
