@@ -1,12 +1,15 @@
 const counter = document.getElementById("counter");
+const totalCounter = document.getElementById("totalCounter");
 const donut = document.getElementById("donut");
+const donutTotal = document.getElementById("totalDonuts")
 
 const multiplier = document.getElementById("multiplier");
 const autoclicker = document.getElementById("autoclicker");
 
 let donuts = 0;
+let totalDonuts = 0
 let clickers = 0;
-let clickerCost = 100;
+let clickerCost = 20;
 let multi = 1;
 let multiplierCost = 10;
 let multiplierEnabled = false;
@@ -18,8 +21,8 @@ autoclicker.style.display="none";
 
 function addDonut(){
 
-    donuts += 1*multi;
-
+    donuts += 1*multi;    
+    totalDonuts += 1*multi
     if ((autoclickEnabled === false)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)}`;
     else if ((autoclickEnabled === true)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers}`;
     else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> Multiplier: ${multi.toFixed(1)}X`;
@@ -31,11 +34,15 @@ function addDonut(){
         multiplier.style.display="";
     }
 
-    if ((donuts > 99)&&(autoclickEnabled===false)){
+    if ((donuts > 19)&&(autoclickEnabled===false)){
         autoclicker.innerHTML = `<img src="./images/clicker.png">UNLOCK AUTOCLICKER<br>(${clickerCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/clicker.png" alt=""></div>`;
         autoclickEnabled = true;
         autoclicker.style.display="";
-    }
+    } updateTotalDonuts()
+}
+
+function updateTotalDonuts(){
+totalCounter.innerHTML = `Total Donuts: ${totalDonuts.toFixed(0)}`;
 }
 
 function dropDonut(){
@@ -85,10 +92,11 @@ function addClicker() {
 function autoClick() {
     if (clickers >= 1) {
     donuts += clickers*multi;
+    totalDonuts += clickers*multi
     if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers}`;
     else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
     setTimeout(autoClick, 1000);
-    }
+    } updateTotalDonuts()
 }
 
 function addMultiplier(){
@@ -118,7 +126,6 @@ autoclicker.addEventListener("click", addClicker);
 donut.addEventListener('click', addDonut);
 donut.addEventListener('click', dropDonut);
 multiplier.addEventListener('click', addMultiplier)
-
 
 
 
