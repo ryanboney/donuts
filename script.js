@@ -5,6 +5,7 @@ const multiplier = document.getElementById("multiplier");
 const autoclicker = document.getElementById("autoclicker");
 
 let donuts = 0;
+let multi = 1;
 let multiplierEnabled = false;
 let autoclickEnabled = false;
 
@@ -13,8 +14,12 @@ autoclicker.style.display="none";
 
 function addDonut(){
 
-    donuts++;
-    counter.innerHTML = `Donuts: ${donuts}`;
+    donuts += 1*multi;
+
+    if ((autoclickEnabled === false)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts}`;
+    else if ((autoclickEnabled === true)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
+    else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts} <br> Multiplier: ${multi}`;
+    else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
 
     if ((donuts > 9)&&(multiplierEnabled===false)){
         multiplier.innerHTML = '<img src="./images/coin.png" alt="">UNLOCK MULTIPLIER<br>(10 Donuts)<div id="reverse"><img src="./images/coin.png" alt=""></div>';
@@ -22,7 +27,7 @@ function addDonut(){
         multiplier.style.display="";
     }
 
-    if ((donuts > 100)&&(autoclickEnabled===false)){
+    if ((donuts > 99)&&(autoclickEnabled===false)){
         autoclicker.innerHTML = '<img src="./images/clicker.png" alt="">UNLOCK AUTOCLICKER<br>(100 Donuts)<div id="reverse"><img src="./images/clicker.png" alt=""></div>';
         autoclickEnabled = true;
         autoclicker.style.display="";
@@ -43,9 +48,9 @@ function dropDonut(){
     dropDonut.style.zIndex = '-1'; // Sends to back!
     
     let speed = 3; // Speed of the image
-    let position = -200; // Starting position of the image (offscreen)
+    let position = -200; // Bumps position of the image offscreen
 
-    const animate = setInterval(() => { //
+    const animate = setInterval(() => { // Updates location every 1ms
 
         position += speed;
         dropDonut.style.top = position + 'px'; // Sets location per update
@@ -58,6 +63,29 @@ function dropDonut(){
     }, 1);
     
 }
+
+let clickers = 0;
+
+function addClicker() {
+    if (donuts >= 100) {
+        donuts -= 100;
+        clickers++;
+        if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
+        else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
+        autoClick();
+    }
+}
+
+function autoClick() {
+    if (clickers >= 1) {
+    donuts += clickers*multi;
+    if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
+    else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
+    setTimeout(autoClick, 1000);
+    }
+}
+
+autoclicker.addEventListener("click", addClicker);
 
 donut.addEventListener('click', addDonut);
 donut.addEventListener('click', dropDonut);
