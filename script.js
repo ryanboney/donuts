@@ -5,7 +5,10 @@ const multiplier = document.getElementById("multiplier");
 const autoclicker = document.getElementById("autoclicker");
 
 let donuts = 0;
+let clickers = 0;
+let clickerCost = 100;
 let multi = 1;
+let multiplierCost = 10;
 let multiplierEnabled = false;
 let autoclickEnabled = false;
 let autoclickEngaged = false;
@@ -17,19 +20,19 @@ function addDonut(){
 
     donuts += 1*multi;
 
-    if ((autoclickEnabled === false)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts}`;
-    else if ((autoclickEnabled === true)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
-    else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts} <br> Multiplier: ${multi}X`;
-    else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
+    if ((autoclickEnabled === false)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)}`;
+    else if ((autoclickEnabled === true)&&(multiplierEnabled === false)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers}`;
+    else if ((autoclickEnabled === false)&&(multiplierEnabled === true)) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> Multiplier: ${multi.toFixed(1)}X`;
+    else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
 
     if ((donuts > 9)&&(multiplierEnabled===false)){
-        multiplier.innerHTML = '<img src="./images/coin.png" alt="">UNLOCK MULTIPLIER<br>(10 Donuts)<div id="reverse"><img src="./images/coin.png" alt=""></div>';
+        multiplier.innerHTML = `<img src="./images/coin.png">UNLOCK MULTIPLIER<br>(${multiplierCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/coin.png" alt=""></div>`;
         multiplierEnabled = true;
         multiplier.style.display="";
     }
 
     if ((donuts > 99)&&(autoclickEnabled===false)){
-        autoclicker.innerHTML = '<img src="./images/clicker.png" alt="">UNLOCK AUTOCLICKER<br>(100 Donuts)<div id="reverse"><img src="./images/clicker.png" alt=""></div>';
+        autoclicker.innerHTML = `<img src="./images/clicker.png">UNLOCK AUTOCLICKER<br>(${clickerCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/clicker.png" alt=""></div>`;
         autoclickEnabled = true;
         autoclicker.style.display="";
     }
@@ -65,14 +68,14 @@ function dropDonut(){
     
 }
 
-let clickers = 0;
-
 function addClicker() {
-    if (donuts >= 100) {
-        donuts -= 100;
+    if (donuts >= clickerCost) {
+        donuts -= clickerCost;
+        clickerCost *=1.1
         clickers++;
-        if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
-        else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
+        autoclicker.innerHTML = `<img src="./images/clicker.png">UNLOCK AUTOCLICKER<br>(${clickerCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/clicker.png" alt=""></div>`;
+        if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers}`;
+        else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
         
         if (autoclickEngaged === false) autoClick();
         autoclickEngaged = true;
@@ -82,16 +85,39 @@ function addClicker() {
 function autoClick() {
     if (clickers >= 1) {
     donuts += clickers*multi;
-    if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers}`;
-    else counter.innerHTML = `Donuts: ${donuts} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi}X`;
+    if (multiplierEnabled === false) counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers}`;
+    else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
     setTimeout(autoClick, 1000);
     }
 }
 
-autoclicker.addEventListener("click", addClicker);
+function addMultiplier(){
+    if(donuts >= multiplierCost){
+        donuts -= multiplierCost
+        multiplierCost *= 1.1
+        multi *= 1.2
+        multiplier.innerHTML = `<img src="./images/coin.png">UNLOCK MULTIPLIER<br>(${multiplierCost.toFixed(0)} Donuts)<div id="reverse"><img src="./images/coin.png" alt=""></div>`;
+        if(autoclickEnabled===true) counter.innerHTML =`Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
+        else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> Multiplier: ${multi.toFixed(1)}X`;
 
+        if(multiplierEnabled === false) multiply()
+        multiplierEnabled === true
+    }
+}
+
+function multiply(){
+    if (multi >= 1) {
+        donuts += multi*multi;
+        if(autoclickEnabled===true) counter.innerHTML =`Donuts: ${donuts.toFixed(0)} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
+        else counter.innerHTML = `Donuts: ${donuts.toFixed(0)} <br> Multiplier: ${multi.toFixed(1)}X`;
+        
+    }
+}
+
+autoclicker.addEventListener("click", addClicker);
 donut.addEventListener('click', addDonut);
 donut.addEventListener('click', dropDonut);
+multiplier.addEventListener('click', addMultiplier)
 
 
 
