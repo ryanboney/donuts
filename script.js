@@ -50,7 +50,7 @@ function dropDonut(){
 
     document.body.style.overflow = 'hidden'; // Prevents scrolling
     const dropDonut = document.createElement('img'); // Creates donut clone
-    dropDonut.src = './images/donut2.png';
+    dropDonut.src = './images/donut2.png'; 
     dropDonut.style.position = 'absolute'; // Sets the position to absolute
     dropDonut.style.width = '100px'; // Sets the width of the image
     dropDonut.style.height = '100px'; // Sets the height of the image
