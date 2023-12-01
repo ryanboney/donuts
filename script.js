@@ -116,7 +116,7 @@ function dropBonusDonut() {
         clearInterval(animate);
         document.body.removeChild(dropBonusDonut);
       } // ^ Removes once at bottom
-    }, 1);
+    }, 0.5);
   }
 }
 
