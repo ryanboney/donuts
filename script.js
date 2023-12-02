@@ -18,7 +18,6 @@ let multi = 1;
 let multiplierCost = 10;
 let multiplierEnabled = false;
 let autoclickEnabled = false;
-let autoclickEngaged = false;
 
 multiplier.style.display = "none";
 autoclicker.style.display = "none";
@@ -80,6 +79,46 @@ function dropDonut() {
   }, 1);
 }
 
+function dropBonusDonut() {
+  toDrop = Math.floor(Math.random() * 6);
+  if (toDrop === 3) {
+    document.body.style.overflow = "hidden"; // Prevents scrolling
+    const dropBonusDonut = document.createElement("img"); // Creates donut clone
+    dropBonusDonut.src = "./images/BonusDonut.png";
+    dropBonusDonut.style.position = "absolute"; // Sets the position to absolute
+    dropBonusDonut.style.width = "100px"; // Sets the width of the image
+    dropBonusDonut.style.height = "100px"; // Sets the height of the image
+    dropBonusDonut.style.left = Math.random() * window.innerWidth + "px"; // Sets a random horizontal position
+    dropBonusDonut.style.top = "0px"; // Sets the initial vertical position to the top of the page
+    document.body.appendChild(dropBonusDonut); //Adds new donut
+    dropBonusDonut.style.zIndex = "6"; // Sends to back!
+
+    let speed = 1; // Speed of the image
+    let position = -150; // Bumps position of the image offscreen
+
+    dropBonusDonut.addEventListener("click", () => {
+      document.body.removeChild(dropBonusDonut);
+      donuts += 10;
+      totalDonuts += 10;
+      counter.innerHTML = `Donuts: ${donuts.toFixed(
+        0
+      )} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
+      updateTotalDonuts();
+    });
+    const animate = setInterval(() => {
+      // Updates location every 1ms
+
+      position += speed;
+      dropBonusDonut.style.top = position + "px"; // Sets location per update
+
+      if (position > window.innerHeight - dropBonusDonut.offsetHeight) {
+        clearInterval(animate);
+        document.body.removeChild(dropBonusDonut);
+      } // ^ Removes once at bottom
+    }, 0.5);
+  }
+}
+
 function addClicker() {
   if (donuts >= clickerCost) {
     autoBuy.play();
@@ -94,6 +133,7 @@ function addClicker() {
     )} <br> AutoClickers: ${clickers} <br> Multiplier: ${multi.toFixed(1)}X`;
     if (autoclickEngaged === false) autoClick();
     autoclickEngaged = true;
+    dropDonut();
   }
 }
 
@@ -162,6 +202,7 @@ function resetGame() {
 autoclicker.addEventListener("click", addClicker);
 
 donut.addEventListener("click", addDonut);
+donut.addEventListener("click", dropBonusDonut);
 donut.addEventListener("click", dropDonut);
 donut.addEventListener("click", function () {
   click.play();
